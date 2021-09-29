@@ -52,7 +52,7 @@ runs:
         if ( "${env:INPUT_INSTALL}" -eq "true")
         {
           curl -L --silent --show-error --output VulkanSDK.exe "${env:VULKAN_SDK_URL}"
-          VulkanSDK.exe /S
+          VulkanSDK.exe in com.lunarg.vulkan.core --accept-licenses --default-answer --confirm-command --root "${env:VULKAN_SDK}"
         }
          
     - name: 🔽 Install VULKAN Runtime (➔ vulkan-1.dll)
@@ -71,12 +71,13 @@ runs:
         {
           cd "${env:VULKAN_SDK}"
           "Folder size before: {0:N2} MB" -f ((ls . -r | Measure-Object -Property Length -Sum).Sum / 1MB)
-          Remove-Item -Recurse -Force "Bin32"
           Remove-Item -Recurse -Force "Demos"
-          Remove-Item -Recurse -Force "Lib32"
+          Remove-Item -Recurse -Force "Helpers"
+          Remove-Item -Recurse -Force "installerResources"
+          Remove-Item -Recurse -Force "Licenses"
           Remove-Item -Recurse -Force "Templates"
-          Remove-Item -Recurse -Force "Third-Party"
           Remove-Item -Recurse -Force "Tools"
-          Remove-Item -Recurse -Force "Tools32"
+          Remove-Item -Recurse -Force "Source"
+          Remove-Item .\maintenancetool.*, .\components.xml, .\network.xml, .\installer.dat, .\InstallationLog.txt
           "Folder size after: {0:N2} MB" -f ((ls . -r | Measure-Object -Property Length -Sum).Sum / 1MB)
         }
