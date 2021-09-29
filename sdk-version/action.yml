@@ -19,18 +19,17 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: 📥 Set latest VULKAN_VERSION as environment variable
+    - name: Set latest VULKAN_VERSION as environment variable
       shell: pwsh
       run: |
           echo 'VULKAN_VERSION<<EOF' >> $env:GITHUB_ENV
           curl --silent https://vulkan.lunarg.com/sdk/latest/windows.txt >> $env:GITHUB_ENV
           echo 'EOF' >> $env:GITHUB_ENV
 
-    - name: 📥 Setup download urls VULKAN_SDK_URL & VULKAN_RUN_URL
+    - name: Create VULKAN_SDK and VULKAN_VERSION output variables.
       id: vulkan-environment
       shell: pwsh
       run: |
-        $env:BASE_URL="https://sdk.lunarg.com/sdk/download/${env:VULKAN_VERSION}/windows"
         $env:VULKAN_SDK="C:\VulkanSDK\${env:VULKAN_VERSION}"
         echo "VULKAN_SDK=${env:VULKAN_SDK}" >> $env:GITHUB_ENV
         echo "::set-output name=VULKAN_VERSION::${env:VULKAN_VERSION}"
