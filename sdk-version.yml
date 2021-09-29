@@ -1,0 +1,25 @@
+#
+# .github/workflows/build-on-windows.yml
+#
+# Copyright 2021 Jens A. Koch.
+# SPDX-License-Identifier: BSL-1.0
+# This file is part of ttauri-project.
+#
+
+name: "Get Vulkan SDK version"
+description: "Get the latest Vulkan SDK version number."
+outputs:
+  VULKAN_VERSION:
+    description: "Version number of the vulkan sdk"
+    value: ${{ steps.vulkan-environment.outputs.VULKAN_VERSION }}
+    
+runs:
+  using: "composite"
+  steps:
+    - name: 📥 Set latest VULKAN_VERSION as environment variable
+      shell: pwsh
+      run: |
+          echo 'VULKAN_VERSION<<EOF' >> $env:GITHUB_ENV
+          curl --silent https://vulkan.lunarg.com/sdk/latest/windows.txt >> $env:GITHUB_ENV
+          echo 'EOF' >> $env:GITHUB_ENV
+ 
