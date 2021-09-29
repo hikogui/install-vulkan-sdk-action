@@ -48,7 +48,7 @@ runs:
 
     - name: Install Vulkan Runtime (vulkan-1.dll)
       shell: pwsh
-      run: 7z e vulkan-runtime.zip -o "${env:VULKAN_SDK}\runtime\x64" */x64
+      run: 7z e vulkan-runtime.zip -o"${env:VULKAN_SDK}\runtime\x64" */x64
 
     - name: Reduce VULKAN_SDK size before caching
       shell: pwsh
