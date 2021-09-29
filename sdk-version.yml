@@ -12,6 +12,9 @@ outputs:
   VULKAN_VERSION:
     description: "Version number of the vulkan sdk"
     value: ${{ steps.vulkan-environment.outputs.VULKAN_VERSION }}
+  VULKAN_SDK:
+    description: "Install directory of Vulkan"
+    value: ${{ steps.vulkan-environment.outputs.VULKAN_SDK }}
     
 runs:
   using: "composite"
@@ -22,4 +25,14 @@ runs:
           echo 'VULKAN_VERSION<<EOF' >> $env:GITHUB_ENV
           curl --silent https://vulkan.lunarg.com/sdk/latest/windows.txt >> $env:GITHUB_ENV
           echo 'EOF' >> $env:GITHUB_ENV
- 
+
+    - name: 📥 Setup download urls VULKAN_SDK_URL & VULKAN_RUN_URL
+      id: vulkan-environment
+      shell: pwsh
+      run: |
+        $env:BASE_URL="https://sdk.lunarg.com/sdk/download/${env:VULKAN_VERSION}/windows"
+        $env:VULKAN_SDK="C:\VulkanSDK\${env:VULKAN_VERSION}"
+        echo "VULKAN_SDK=${env:VULKAN_SDK}" >> $env:GITHUB_ENV
+        echo "::set-output name=VULKAN_VERSION::${env:VULKAN_VERSION}"
+        echo "::set-output name=VULKAN_SDK::${env:VULKAN_SDK}"
+
