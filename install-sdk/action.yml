@@ -35,7 +35,7 @@ runs:
 
     - name: Install Vulkan SDK
       shell: cmd
-      run: VulkanSDK.exe in com.lunarg.vulkan.core --accept-licenses --default-answer --confirm-command --root %VULKAN_SDK%
+      run: VulkanSDK.exe in com.lunarg.vulkan.core com.lunarg.vulkan.vma --accept-licenses --default-answer --confirm-command --root %VULKAN_SDK%
          
     - name: Download Vulkan runtime
       shell: pwsh
@@ -55,7 +55,6 @@ runs:
         Remove-Item -Recurse -Force "installerResources"
         Remove-Item -Recurse -Force "Licenses"
         Remove-Item -Recurse -Force "Templates"
-        Remove-Item -Recurse -Force "Tools"
         Remove-Item -Recurse -Force "Source"
         Remove-Item .\maintenancetool.*, .\components.xml, .\network.xml, .\installer.dat, .\InstallationLog.txt
         "Folder size after: {0:N2} MB" -f ((ls . -r | Measure-Object -Property Length -Sum).Sum / 1MB)
