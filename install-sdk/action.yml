@@ -21,7 +21,7 @@ runs:
   steps:
     - name: Download Vulkan SDK
       env:
-        VULKAN_SDK_URL: https://sdk.lunarg.com/sdk/download/${{intputs.VULKAN_VERSION}}/windows/VulkanSDK-${{inputs.VULKAN_VERSION}}-Installer.exe?Human=true
+        VULKAN_SDK_URL: https://sdk.lunarg.com/sdk/download/${{inputs.VULKAN_VERSION}}/windows/VulkanSDK-${{inputs.VULKAN_VERSION}}-Installer.exe?Human=true
       shell: pwsh
       run: curl -L --silent --show-error --output VulkanSDK.exe "${{env.VULKAN_SDK_URL}}"
 
@@ -31,7 +31,7 @@ runs:
          
     - name: Download Vulkan runtime
       env:
-        VULKAN_RUN_URL: https://sdk.lunarg.com/sdk/download/${{intputs.VULKAN_VERSION}}/windows/vulkan-runtime-components.zip?Human=true
+        VULKAN_RUN_URL: https://sdk.lunarg.com/sdk/download/${{inputs.VULKAN_VERSION}}/windows/vulkan-runtime-components.zip?Human=true
       shell: pwsh
       run: curl -L --silent --show-error --output vulkan-runtime.zip "${{env.VULKAN_RUN_URL}}"
 
