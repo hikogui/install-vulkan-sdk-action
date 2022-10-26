@@ -30,6 +30,6 @@ runs:
       id: vulkan-environment
       shell: pwsh
       run: |
-        echo "VULKAN_VERSION=${env:VULKAN_VERSION}" >> $env::GITHUB_OUTPUT
-        echo "VULKAN_SDK=C:\VulkanSDK\${env:VULKAN_VERSION}" >> $env::GITHUB_OUTPUT
+        echo "VULKAN_VERSION=${{env.VULKAN_VERSION}}" >> $env::GITHUB_OUTPUT
+        echo "VULKAN_SDK=C:\VulkanSDK\${{env.VULKAN_VERSION}}" >> $env::GITHUB_OUTPUT
 
