@@ -1,9 +1,9 @@
 #
-# .github/workflows/build-on-windows.yml
+# install-sdk/action.yml
 #
 # Copyright 2021 Jens A. Koch.
 # SPDX-License-Identifier: BSL-1.0
-# This file is part of ttauri-project.
+# This file is part of hikogui.
 #
 
 name: "Install Vulkan SDK"
@@ -30,25 +30,29 @@ runs:
         echo "VULKAN_RUN_URL=${env:VULKAN_RUN_URL}" >> $env:GITHUB_ENV
 
     - name: Download Vulkan SDK
+      env:
+        VULKAN_SDK_URL: https://sdk.lunarg.com/sdk/download/${{intputs.VULKAN_VERSION}}/windows/VulkanSDK-${{inputs.VULKAN_VERSION}}-Installer.exe?Human=true
       shell: pwsh
-      run: curl -L --silent --show-error --output VulkanSDK.exe ${env:VULKAN_SDK_URL}
+      run: curl -L --silent --show-error --output VulkanSDK.exe "${{env.VULKAN_SDK_URL}}"
 
     - name: Install Vulkan SDK
       shell: cmd
-      run: VulkanSDK.exe in com.lunarg.vulkan.core com.lunarg.vulkan.vma --accept-licenses --default-answer --confirm-command --root %VULKAN_SDK%
+      run: VulkanSDK.exe in com.lunarg.vulkan.core com.lunarg.vulkan.vma --accept-licenses --default-answer --confirm-command --root ${{inputs.VULKAN_SDK}}
          
     - name: Download Vulkan runtime
+      env:
+        VULKAN_RUN_URL: https://sdk.lunarg.com/sdk/download/${{intputs.VULKAN_VERSION}}/windows/vulkan-runtime-components.zip?Human=true
       shell: pwsh
-      run: curl -L --silent --show-error --output vulkan-runtime.zip "${env:VULKAN_RUN_URL}"
+      run: curl -L --silent --show-error --output vulkan-runtime.zip "${{env.VULKAN_RUN_URL}}"
 
     - name: Install Vulkan Runtime (vulkan-1.dll)
       shell: pwsh
-      run: 7z e vulkan-runtime.zip -o"${env:VULKAN_SDK}\runtime\x64" */x64
+      run: 7z e vulkan-runtime.zip -o"${{inputs.VULKAN_SDK}}\runtime\x64" */x64
 
     - name: Reduce VULKAN_SDK size before caching
       shell: pwsh
+      working-directory: ${{inputs.VULKAN_SDK}}
       run: |
-        cd "${env:VULKAN_SDK}"
         "Folder size before: {0:N2} MB" -f ((ls . -r | Measure-Object -Property Length -Sum).Sum / 1MB)
         Remove-Item -Recurse -Force "Demos"
         Remove-Item -Recurse -Force "Helpers"
