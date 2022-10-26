@@ -19,16 +19,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: 📥 Setup download urls VULKAN_SDK_URL & VULKAN_RUN_URL
-      id: vulkan-environment
-      shell: pwsh
-      run: |
-        $env:BASE_URL="https://sdk.lunarg.com/sdk/download/${env:VULKAN_VERSION}/windows"
-        $env:VULKAN_SDK_URL="${env:BASE_URL}/VulkanSDK-${env:VULKAN_VERSION}-Installer.exe?Human=true"
-        $env:VULKAN_RUN_URL="${env:BASE_URL}/vulkan-runtime-components.zip?Human=true"
-        echo "VULKAN_SDK_URL=${env:VULKAN_SDK_URL}" >> $env:GITHUB_ENV
-        echo "VULKAN_RUN_URL=${env:VULKAN_RUN_URL}" >> $env:GITHUB_ENV
-
     - name: Download Vulkan SDK
       env:
         VULKAN_SDK_URL: https://sdk.lunarg.com/sdk/download/${{intputs.VULKAN_VERSION}}/windows/VulkanSDK-${{inputs.VULKAN_VERSION}}-Installer.exe?Human=true
